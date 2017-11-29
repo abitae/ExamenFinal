@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ExamenFinal.Models;
+using ExamenFinal.ViewModels;
+using System.Data;
 
 namespace ExamenFinal.Models
 {
@@ -84,11 +86,40 @@ namespace ExamenFinal
             return !string.IsNullOrEmpty(url) && ((url[0] == '/' && (url.Length == 1 || (url[1] != '/' && url[1] != '\\'))) || (url.Length > 1 && url[0] == '~' && url[1] == '/'));
         }
 
-        public static void RedirectToReturnUrl(string returnUrl, HttpResponse response)
+        public static void RedirectToReturnUrl(string returnUrl, HttpResponse response,string email)
         {
-            if (!String.IsNullOrEmpty(returnUrl) && IsLocalUrl(returnUrl))
+            DataTable dt = new DataTable();
+            UsuarioModel userData = new UsuarioModel();
+            
+            if (email != "" || email != null)
+            {   dt = userData.UsuarioData(email);
+                if (dt != null)
             {
-                response.Redirect(returnUrl);
+                string Id = "";
+                int RoleId = 0;
+                foreach (DataRow row in dt.Rows)
+                {
+                    Id = row["Id"].ToString();
+                    RoleId = Convert.ToInt32(row["RoleId"].ToString());
+                }
+                if (RoleId == 1)
+                {
+                    response.Redirect("~/");
+                }
+                else if (RoleId == 2)
+                {
+                    response.Redirect("~/");
+                }
+                else if (RoleId == 3)
+                {
+                    response.Redirect("~/Pages/MatriculaAlumno.aspx?ca=" + Id);
+                }
+            }
+
+           
+                
+                
+               
             }
             else
             {

@@ -9,15 +9,31 @@ namespace ExamenFinal.Pages
 
     public partial class MatriculaAlumno : System.Web.UI.Page
     {
-        MatriculaModel matriculaModel = new MatriculaModel();
+       
+           MatriculaModel matriculaModel = new MatriculaModel();
+       internal string valor;
         protected void Page_Load(object sender, EventArgs e)
         {
-            MisExamenes();
+            try
+            {
+               
+                valor = Convert.ToString(Request.QueryString["ca"]);
+                if (!String.IsNullOrEmpty(valor))
+                {
+                    grd_misexamenes.DataSource = matriculaModel.MisExamenes(valor);
+                    grd_misexamenes.DataBind();
+                }
+            }
+            catch
+            {
+
+            }
+            
         }
-        private void MisExamenes()
+        private void MisExamenes(string id)
         {
-            grd_misexamenes.DataSource = matriculaModel.MisExamenes("a72159ab-7d05-4c21-8526-7568a0a59a1c");
-            grd_misexamenes.DataBind();
+
+            
         }
 
         protected void grd_misexamenes_SelectedIndexChanged(object sender, EventArgs e)
@@ -25,7 +41,7 @@ namespace ExamenFinal.Pages
             GridViewRow row = grd_misexamenes.SelectedRow;
             string codiExamen = "";
             codiExamen = Convert.ToString(grd_misexamenes.DataKeys[row.RowIndex].Value);
-            Response.Redirect("ExamenAlumno.aspx?codiExamen=" + codiExamen);
+            Response.Redirect("ExamenAlumno.aspx?ca="+valor+"?ce="+ codiExamen);
         }
     }
 }

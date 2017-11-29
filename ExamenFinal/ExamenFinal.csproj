@@ -435,6 +435,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ExamenModel.cs" />
     <Compile Include="ViewModels\MatriculaModel.cs" />
+    <Compile Include="ViewModels\UsuarioModel.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

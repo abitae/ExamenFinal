@@ -13,16 +13,21 @@ namespace ExamenFinal.Pages
     {
         ExamenModel examenModel = new ExamenModel();
         private string valor;
+        private string valor2;
         bool control;
         protected void Page_Load(object sender, EventArgs e)
         {
-            control = false;
-            MiExamen();
-
+            try {
+                control = false;
+                MiExamen();
+            }
+            catch { }
+            
         }
         private void MiExamen()
-        {   valor = Convert.ToString(Request.QueryString["codiExamen"]);
-            if (valor == "" || String.IsNullOrEmpty(valor)) {
+        {   valor = Convert.ToString(Request.QueryString["ce"]);
+            valor2 = Convert.ToString(Request.QueryString["ca"]);
+            if (String.IsNullOrEmpty(valor) && String.IsNullOrEmpty(valor2)) {
                 Response.Redirect("MatriculaAlumno.aspx");
             }
             else {
@@ -109,7 +114,7 @@ namespace ExamenFinal.Pages
                 int[] Resp = CodiRespuesta;
 
                 if (control) {
-                    ValidateData(Preg, Resp, valor, "a72159ab-7d05-4c21-8526-7568a0a59a1c");
+                    ValidateData(Preg, Resp, valor, valor2);
                 }
                 
             }
@@ -357,6 +362,8 @@ namespace ExamenFinal.Pages
             {
                 Info.Text = "Responda la preguna 10";
                 
+
+
             }
             if (respreg1 != 0 && respreg2 != 0 && respreg3 != 0 && respreg4 != 0 &&  respreg5  != 0 && respreg6  != 0 && respreg7 != 0 && respreg8  != 0 && respreg9 != 0 && respreg10 != 0 ) {
                 examenModel.InsertData(idAlumno, codExamen, p[0], respreg1);
@@ -375,9 +382,14 @@ namespace ExamenFinal.Pages
 
         protected void BtnFinalizar_Click(object sender, EventArgs e)
         {
-            control = true;
-            MiExamen();
-            Response.Redirect("MatriculaAlumno.aspx");
+            try {
+                control = true;
+
+                MiExamen();
+                Response.Redirect("~/Pages/MatriculaAlumno.aspx?ca=" + valor2 + "?ce=" + valor);
+            } catch { }
+            
+           
         }
 
     }

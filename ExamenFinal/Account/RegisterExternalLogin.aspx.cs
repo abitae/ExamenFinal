@@ -50,7 +50,7 @@ namespace ExamenFinal.Account
                 if (user != null)
                 {
                     signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response,"");
                 }
                 else if (User.Identity.IsAuthenticated)
                 {
@@ -65,7 +65,7 @@ namespace ExamenFinal.Account
                     var result = manager.AddLogin(User.Identity.GetUserId(), verifiedloginInfo.Login);
                     if (result.Succeeded)
                     {
-                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response,"");
                     }
                     else
                     {
@@ -112,7 +112,7 @@ namespace ExamenFinal.Account
                     // var code = manager.GenerateEmailConfirmationToken(user.Id);
                     // Send this link via email: IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id)
 
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response,"");
                     return;
                 }
             }

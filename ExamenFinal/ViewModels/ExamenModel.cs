@@ -40,5 +40,30 @@ namespace ExamenFinal.ViewModels
             cn.Desconectar();
             
         }
+        public int CorregirPregunta(string codiExamen,int codiPregunta)
+        {
+            DataTable dt = new DataTable("Preguntas");
+            dt = sm.ExeProcedure("SP_CorregirPregunta", "@CodiExamen", codiExamen, "@CodiPregunta", codiPregunta);
+            int CodiRespuesta = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                
+                CodiRespuesta = Convert.ToInt32(row["CodiRespuesta"].ToString());
+                
+            }
+            return CodiRespuesta;
+        }
+
+        public bool SP_UpdateNota(string ce, string id,int nota) {
+            try {
+                DataTable dt = new DataTable("Preguntas");
+                dt = sm.ExeProcedure("SP_UpdateNota", "@CodiExamen", ce, "@Id", id, "@nota", nota);
+                return true;
+            } catch {
+                return false;
+            }
+            
+
+        }
     }
 }

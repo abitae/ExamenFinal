@@ -14,6 +14,7 @@ namespace ExamenFinal.Pages
         ExamenModel examenModel = new ExamenModel();
         private string valor;
         private string valor2;
+        private int nota=0;
         bool control;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,11 +25,15 @@ namespace ExamenFinal.Pages
             catch { }
             
         }
-        private void MiExamen()
-        {   valor = Convert.ToString(Request.QueryString["ce"]);
+        private bool MiExamen()
+        {
+            valor = "";
+            valor2 = "";
+            valor = Convert.ToString(Request.QueryString["ce"]);
             valor2 = Convert.ToString(Request.QueryString["ca"]);
             if (String.IsNullOrEmpty(valor) && String.IsNullOrEmpty(valor2)) {
-                Response.Redirect("MatriculaAlumno.aspx");
+                Response.Redirect("~/Account/Login.aspx");
+                return false;
             }
             else {
                 DataTable dt = new DataTable();
@@ -113,13 +118,19 @@ namespace ExamenFinal.Pages
                 int[] Preg = CodiPregunta.Distinct().ToArray();
                 int[] Resp = CodiRespuesta;
 
-                if (control) {
-                    ValidateData(Preg, Resp, valor, valor2);
+                if (control)
+                {
+
+                    return ValidateData(Preg, Resp, valor, valor2);
+
+                }
+                else {
+                    return false;
                 }
                 
             }
         }
-        private void ValidateData(int[] p, int[] r,string codExamen,string idAlumno)
+        private bool ValidateData(int[] p, int[] r,string codExamen,string idAlumno)
         {
             int respreg1 = 0;
             if (rp11.Checked)
@@ -365,31 +376,105 @@ namespace ExamenFinal.Pages
 
 
             }
-            if (respreg1 != 0 && respreg2 != 0 && respreg3 != 0 && respreg4 != 0 &&  respreg5  != 0 && respreg6  != 0 && respreg7 != 0 && respreg8  != 0 && respreg9 != 0 && respreg10 != 0 ) {
-                examenModel.InsertData(idAlumno, codExamen, p[0], respreg1);
-                examenModel.InsertData(idAlumno, codExamen, p[1], respreg2);
-                examenModel.InsertData(idAlumno, codExamen, p[2], respreg3);
-                examenModel.InsertData(idAlumno, codExamen, p[3], respreg4);
-                examenModel.InsertData(idAlumno, codExamen, p[4], respreg5);
-                examenModel.InsertData(idAlumno, codExamen, p[5], respreg6);
-                examenModel.InsertData(idAlumno, codExamen, p[6], respreg7);
-                examenModel.InsertData(idAlumno, codExamen, p[7], respreg8);
-                examenModel.InsertData(idAlumno, codExamen, p[8], respreg9);
-                examenModel.InsertData(idAlumno, codExamen, p[9], respreg10);
-                control = false;
+            try {
+                if (respreg1 != 0 && respreg2 != 0 && respreg3 != 0 && respreg4 != 0 && respreg5 != 0 && respreg6 != 0 && respreg7 != 0 && respreg8 != 0 && respreg9 != 0 && respreg10 != 0)
+                {
+                    examenModel.InsertData(idAlumno, codExamen, p[0], respreg1);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[1], respreg2);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[2], respreg3);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[3], respreg4);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[4], respreg5);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[5], respreg6);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[6], respreg7);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[7], respreg8);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[8], respreg9);
+
+                    examenModel.InsertData(idAlumno, codExamen, p[9], respreg10);
+
+                    
+                        if (respreg1 == examenModel.CorregirPregunta(codExamen, p[0]))
+                        {
+                            nota =nota + 2;
+                        }
+                    if (respreg2 == examenModel.CorregirPregunta(codExamen, p[1]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg3 == examenModel.CorregirPregunta(codExamen, p[2]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg4 == examenModel.CorregirPregunta(codExamen, p[3]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg5 == examenModel.CorregirPregunta(codExamen, p[4]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg6 == examenModel.CorregirPregunta(codExamen, p[5]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg7 == examenModel.CorregirPregunta(codExamen, p[6]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg8 == examenModel.CorregirPregunta(codExamen, p[7]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg9 == examenModel.CorregirPregunta(codExamen, p[8]))
+                    {
+                        nota = nota + 2;
+                    }
+                    if (respreg10 == examenModel.CorregirPregunta(codExamen, p[9]))
+                    {
+                        nota = nota + 2;
+                    }
+
+
+
+                    if (examenModel.SP_UpdateNota(codExamen, idAlumno, nota))
+                    {
+                        control = false;
+                        return true;
+                    }
+                    return false;
+
+                    
+                }
+                else
+                {
+                    return false;
+                }
+
+            } catch {
+                return false;
             }
+           
         }
 
         protected void BtnFinalizar_Click(object sender, EventArgs e)
         {
             try {
                 control = true;
-
-                MiExamen();
-                Response.Redirect("~/Pages/MatriculaAlumno.aspx?ca=" + valor2 + "?ce=" + valor);
+                bool Termino = MiExamen();
+                if (Termino) {
+                    Response.Redirect("~/Pages/MatriculaAlumno.aspx?ca=" + valor2 + "&ce=" + valor);
+                }
+                
             } catch { }
-            
-           
+
+            Info.Text = "Termine de responder todas las preguntas";
         }
 
     }

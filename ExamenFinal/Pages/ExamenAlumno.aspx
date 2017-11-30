@@ -256,7 +256,11 @@
     </div></div>
   </div>
 </div>
-
-    <asp:Label ID="Info" runat="server" Text=""></asp:Label>
-
+    <div>
+   
+        <h2  >
+    <asp:Label ID="Info" runat="server" Text="" class="label label-warning" ></asp:Label>
+            </h2>
+   
+        </div>
 </asp:Content>

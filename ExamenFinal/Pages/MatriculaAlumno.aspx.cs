@@ -41,7 +41,7 @@ namespace ExamenFinal.Pages
             GridViewRow row = grd_misexamenes.SelectedRow;
             string codiExamen = "";
             codiExamen = Convert.ToString(grd_misexamenes.DataKeys[row.RowIndex].Value);
-            Response.Redirect("ExamenAlumno.aspx?ca="+valor+"?ce="+ codiExamen);
+            Response.Redirect("ExamenAlumno.aspx?ca="+valor+ "&ce=" + codiExamen);
         }
     }
 }
